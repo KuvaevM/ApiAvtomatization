@@ -10,7 +10,10 @@ repositories {
 }
 
 object Versions {
-    const val apacheCommons = "1.10"
+    const val apacheCommonsCodec = "1.10"
+    const val apacheCommons = "3.12.0"
+    const val apacheHttpComponents = "4.5.14"
+    const val junit = "5.8.1"
 }
 
 plugins {
@@ -22,13 +25,26 @@ configure<JavaPluginExtension> {
 }
 
 dependencies {
-    implementation("commons-codec:commons-codec:${Versions.apacheCommons}")
+    implementation("commons-codec:commons-codec:${Versions.apacheCommonsCodec}")
+    implementation("org.apache.commons:commons-lang3:${Versions.apacheCommons}")
+    implementation("org.apache.httpcomponents:httpclient:${Versions.apacheHttpComponents}")
+    testImplementation("org.junit.jupiter:junit-jupiter:${Versions.junit}")
 }
 
 sourceSets {
+    main {
+        java {
+            srcDir("src/java/main")
+        }
+    }
     test {
         java {
             srcDir("src/java/test")
         }
     }
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
+
