@@ -14,6 +14,9 @@ object Versions {
     const val apacheCommons = "3.12.0"
     const val apacheHttpComponents = "4.5.14"
     const val junit = "5.8.1"
+    const val jetbrainsAnnotations = "23.0.0"
+    const val jackson = "2.15.2"
+    const val lombok = "1.18.22"
 }
 
 plugins {
@@ -25,9 +28,17 @@ configure<JavaPluginExtension> {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:${Versions.lombok}")
+    annotationProcessor("org.projectlombok:lombok:${Versions.lombok}")
+
+    testCompileOnly("org.projectlombok:lombok:${Versions.lombok}")
+    testAnnotationProcessor("org.projectlombok:lombok:${Versions.lombok}")
+
     implementation("commons-codec:commons-codec:${Versions.apacheCommonsCodec}")
     implementation("org.apache.commons:commons-lang3:${Versions.apacheCommons}")
     implementation("org.apache.httpcomponents:httpclient:${Versions.apacheHttpComponents}")
+    implementation("org.jetbrains:annotations:${Versions.jetbrainsAnnotations}")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${Versions.jackson}")
     testImplementation("org.junit.jupiter:junit-jupiter:${Versions.junit}")
 }
 
@@ -40,6 +51,9 @@ sourceSets {
     test {
         java {
             srcDir("src/java/test")
+        }
+        resources {
+            srcDir("src/java/test/resources")
         }
     }
 }
