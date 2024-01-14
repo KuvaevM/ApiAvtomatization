@@ -2,36 +2,26 @@ package ok.api.users.get;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ok.api.client.MethodApiClient;
-import ok.api.client.PathApiClient;
-import ok.api.config.HttpClientConfig;
+import ok.api.AbstractTest;
 import ok.api.util.TestUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static ok.api.users.get.ApplicationSecrets.*;
 import static ok.api.util.TestUtil.MAPPER;
 import static ok.api.util.TestUtil.tryExtractError;
 import static org.junit.jupiter.api.Assertions.*;
 
 // https://apiok.ru/dev/methods/rest/users/users.getCurrentUser
-public class TestGetCurrentUser {
-
-    private final HttpClientConfig config = HttpClientConfig.loadFromResources();
-    private final PathApiClient pathClient = new PathApiClient(config);
-    private final MethodApiClient methodClient = new MethodApiClient(config);
-
-    public TestGetCurrentUser() throws IOException {
-    }
+public class TestGetCurrentUserPositive extends AbstractTest {
 
     private static final String UID = "585037496439";
 
     @Test
     public void testPathApi() throws IOException {
-        pathClient.setApplication(APPLICATION_ID, APPLICATION_KEY, APPLICATION_SECRET_KEY);
-        pathClient.setCredentials(ACCESS_TOKEN, SESSION_SECRET);
+        pathClient.setApplication(applicationSecrets.applicationId(), applicationSecrets.applicationKey(), applicationSecrets.applicationSecretKey());
+        pathClient.setCredentials(applicationSecrets.accessToken(), applicationSecrets.sessionSecret());
 
         var requestBuilder = pathClient.buildRequest("GET", "users", "getCurrentUser", Map.of());
         pathClient.addRequestApplication(requestBuilder);
@@ -52,8 +42,8 @@ public class TestGetCurrentUser {
 
     @Test
     public void testMethodApi() throws IOException {
-        methodClient.setApplication(APPLICATION_ID, APPLICATION_KEY, APPLICATION_SECRET_KEY);
-        methodClient.setCredentials(ACCESS_TOKEN, SESSION_SECRET);
+        methodClient.setApplication(applicationSecrets.applicationId(), applicationSecrets.applicationKey(), applicationSecrets.applicationSecretKey());
+        methodClient.setCredentials(applicationSecrets.accessToken(), applicationSecrets.sessionSecret());
 
         var requestBuilder = methodClient.buildRequest("GET", "users", "getCurrentUser", Map.of());
         methodClient.addRequestApplication(requestBuilder);
