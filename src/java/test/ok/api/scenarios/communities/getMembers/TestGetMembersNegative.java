@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.util.Map;
 
 import static ok.api.util.TestUtil.tryExtractError;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+// https://apiok.ru/dev/methods/rest/communities/communities.getMembers
 public class TestGetMembersNegative extends AbstractTest {
     @ParameterizedTest
     @MethodSource("provideHttpClients")
@@ -19,10 +21,7 @@ public class TestGetMembersNegative extends AbstractTest {
         client.setApplication(applicationSecrets.applicationId(), applicationSecrets.applicationKey(), applicationSecrets.applicationSecretKey());
         client.setCredentials(applicationSecrets.accessToken(), applicationSecrets.sessionSecret());
 
-        var requestBuilder = client.buildRequest("GET", "communities", "getMembers",
-                Map.of("gid", "non-existant-gid",
-                        "start_year", "0",
-                        "end_year", "9999"));
+        var requestBuilder = client.buildRequest("GET", "communities", "getMembers", Map.of("gid", "non-existant-gid", "start_year", "0", "end_year", "9999"));
         client.addRequestApplication(requestBuilder);
         client.addRequestAccessToken(requestBuilder);
         client.signRequest(requestBuilder);

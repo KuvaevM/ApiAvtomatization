@@ -13,6 +13,7 @@ import static ok.api.util.TestUtil.tryExtractError;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+// https://apiok.ru/dev/methods/rest/bookmark/bookmark.add
 public class TestAddBookmarkNegative extends AbstractTest {
     @ParameterizedTest
     @MethodSource("provideHttpClients")
@@ -20,9 +21,7 @@ public class TestAddBookmarkNegative extends AbstractTest {
         client.setApplication(applicationSecrets.applicationId(), applicationSecrets.applicationKey(), applicationSecrets.applicationSecretKey());
         client.setCredentials(applicationSecrets.accessToken(), applicationSecrets.sessionSecret());
 
-        var requestBuilder = client.buildRequest("GET", "bookmark", "add",
-                Map.of("ref_id", "53038939046008",
-                        "bookmark_type", "INVALID"));
+        var requestBuilder = client.buildRequest("GET", "bookmark", "add", Map.of("ref_id", "53038939046008", "bookmark_type", "INVALID"));
         client.addRequestApplication(requestBuilder);
         client.addRequestAccessToken(requestBuilder);
         client.signRequest(requestBuilder);
